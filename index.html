@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API GITHUB</title>
+  <link rel="stylesheet" href="asset/style.css">
+</head>
+
+<body>
+  <main>
+    <div class="container">
+      <h1>Api GitHub</h1>
+      <form id="prevent">
+        <input type="text" id="input" placeholder="Ingrese Usuario">
+        <button onclick=" fetchData()">Buscar</button>
+      </form>
+      <h2>Datos del usuario:</h2>
+      <ul>
+        <li id="name"></li>
+        <li id="company"></li>
+        <li id="web"></li>
+        <li id="city"></li>
+      </ul>
+    </div>
+  </main>
+
+  <script>
+
+
+    const form = document.getElementById('prevent');
+    form.addEventListener('submit', (event) => {
+      event.preventDefault()
+    });
+
+
+    //funciones
+    async function fetchData() {//indico que la funcion es asincrona
+
+      //get a la api de github - fetch es asincronico
+      const inputValue = document.getElementById("input").value;
+      //async await
+      const data = await fetch(`https://api.github.com/users/${inputValue}`) //await indica que son asincronicas
+      const json = await data.json(); //string de datos A json
+
+      // console.log(json.name);
+      if (data.status == 200) {
+
+        document.getElementById('name').innerText = json.name;
+        document.getElementById('company').innerText = json.company;
+        document.getElementById('city').innerText = json.location;
+        document.getElementById('web').innerText = json.blog;
+      } else {
+        document.getElementById('name').innerText = "no encontrado.";
+      }
+    }
+
+
+
+
+  </script>
+</body>
+
+</html>
